@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string>
 #include <sstream>
+#include <set>
 
 // Directions are listed in the order you'd see if you're turning right from
 // north
@@ -17,13 +18,40 @@ enum Direction
   WEST
 };
 
+int posX = 0;
+int posY = 0;
+std::set<std::pair<int, int>> visitedPositions;
+
+//-----------------------------------------------------------------------------
+int
+walk(int dirX, int dirY, int numSteps)
+{
+  while(numSteps > 0)
+  {
+    --numSteps;
+
+    posX += dirX;
+    posY += dirY;
+
+    printf("Current position is (%d, %d), taxicab distance %d\n", posX, posY, abs(posX) + abs(posY));
+
+    auto pos = std::make_pair(posX, posY);
+    if (visitedPositions.find(pos) != visitedPositions.end())
+    {
+      printf("Visited twice\n");
+    }
+    else
+    {
+      visitedPositions.insert(pos);
+    }
+  }
+}
+
 //-----------------------------------------------------------------------------
 int
 main(int argc, char** argv)
 {
   Direction currentDirection = NORTH;
-  int posX = 0;
-  int posY = 0;
   
   // Input is given directly as argv[1], NOT a filename!
   if (argc < 2)
@@ -57,15 +85,14 @@ main(int argc, char** argv)
       numSteps = atoi(instruction.data() + 1);
       switch(currentDirection)
       {
-        case NORTH: posY += numSteps; printf("North %d\n", numSteps); break;
-        case EAST:  posX += numSteps; printf("East %d\n",  numSteps); break;
-        case SOUTH: posY -= numSteps; printf("South %d\n", numSteps); break;
-        case WEST:  posX -= numSteps; printf("West %d\n",  numSteps); break;
+        case NORTH: walk( 0,  1, numSteps); printf("North %d\n", numSteps); break;
+        case EAST:  walk( 1,  0, numSteps); printf("East %d\n",  numSteps); break;
+        case SOUTH: walk( 0, -1, numSteps); printf("South %d\n", numSteps); break;
+        case WEST:  walk(-1,  0, numSteps); printf("West %d\n",  numSteps); break;
         default:
           fprintf(stderr, "Error: Invalid direction\n");
           return(1);
       }
-      printf("Current position is (%d, %d), taxicab distance %d\n", posX, posY, abs(posX) + abs(posY));
     }
   }
   
