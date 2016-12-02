@@ -1,11 +1,16 @@
 CPP=g++
 CPPFLAGS=-g -std=c++11
 
+all: aoc1 aoc2
+
 aoc1: aoc1.o
 	$(CPP) $(CPPFLAGS) aoc1.o -o $@
 
+aoc2: aoc2.o
+	$(CPP) $(CPPFLAGS) aoc2.o -o $@
+
 clean:
-	rm -f aoc1 *.o
+	rm -f aoc1 aoc2 *.o
 
 .SUFFIXES: .cpp .o
 
