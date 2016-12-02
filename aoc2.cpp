@@ -6,30 +6,39 @@
 #include <stdlib.h>
 #include <string>
 #include <fstream>
-#include <sstream>
-#include <set>
 
 int currentX = 0;
 int currentY = 2;
 
-int keypad[] = { 0x0, 0x0, 0x1, 0x0, 0x0,
-                 0x0, 0x2, 0x3, 0x4, 0x0,
-                 0x5, 0x6, 0x7, 0x8, 0x9,
-                 0x0, 0xa, 0xb, 0xc, 0x0,
-                 0x0, 0x0, 0xd, 0x0, 0x0 };
+const int keypad[] = { 0x0, 0x0, 0x1, 0x0, 0x0,
+                       0x0, 0x2, 0x3, 0x4, 0x0,
+                       0x5, 0x6, 0x7, 0x8, 0x9,
+                       0x0, 0xa, 0xb, 0xc, 0x0,
+                       0x0, 0x0, 0xd, 0x0, 0x0 };
+
+//-----------------------------------------------------------------------------
+// Get a key from the keypad at the given coordinate. Returns 0 if invalid.
+int
+getKeypad(int x, int y)
+{
+  if ((x > -1) && (y > -1) && (x < 5) && (y < 5))
+    return(keypad[(y * 5) + x]);
+
+  return(0);
+}
 
 //-----------------------------------------------------------------------------
 void
-processLine(const char* line)
+processLine(const std::string line)
 {
-  unsigned int i = 0;
   int nextX;
   int nextY;
-  while(line[i] != '\0')
+  int nextNum;
+  for(auto c : line)
   {
     nextX = currentX;
     nextY = currentY;
-    switch(line[i])
+    switch(c)
     {
       case 'L': nextX = currentX - 1; break;
       case 'R': nextX = currentX + 1; break;
@@ -37,25 +46,16 @@ processLine(const char* line)
       case 'D': nextY = currentY + 1; break;
     }
 
-    if ((nextX > -1)
-     && (nextY > -1)
-     && (nextX < 5)
-     && (nextY < 5))
+    nextNum = getKeypad(nextX, nextY);
+    if (nextNum > 0)
     {
-      // Next move is in the square, is it valid?
-      int nextNum = keypad[(nextY * 5) + nextX];
-      if (nextNum != 0)
-      {
-        // Valid key
-        currentX = nextX;
-        currentY = nextY;
-      }
+      // Valid key
+      currentX = nextX;
+      currentY = nextY;
     }
-
-    ++i;
   }
 
-  printf("%x", keypad[(nextY * 5) + nextX]);
+  printf("%x", getKeypad(currentX, currentY));
 }
 
 //-----------------------------------------------------------------------------
