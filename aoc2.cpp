@@ -29,7 +29,7 @@ getKeypad(int x, int y)
 
 //-----------------------------------------------------------------------------
 void
-processLine(const std::string line)
+processLine(const std::string& line)
 {
   int nextX;
   int nextY;
