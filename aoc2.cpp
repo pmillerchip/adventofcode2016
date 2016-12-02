@@ -73,7 +73,7 @@ main(int argc, char** argv)
   std::string line; 
   while (std::getline(file, line))
   {
-    processLine(line.data());
+    processLine(line);
   }
   printf("\n");
 
