@@ -5,10 +5,12 @@ set r1, r0
 call .readint
 set r2, r0
 call .readint
+set r4, r0
 call .istriangle
 jf r0, .nottriangle
 add r3, r3, 1
 .nottriangle
+set r0, r4
 call .printint
 out 32
 set r0, r1
