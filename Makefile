@@ -1,7 +1,7 @@
 CPP=g++
 CPPFLAGS=-g -std=c++11
 
-all: aoc1 aoc2 aoc3p1 aoc3p2 aoc4 aoc5p1 aoc5p2
+all: aoc1 aoc2 aoc3p1 aoc3p2 aoc4 aoc5p1 aoc5p2 aoc6p1 aoc6p2
 
 aoc1: aoc1.o
 	$(CPP) $(CPPFLAGS) aoc1.o -o $@
@@ -24,8 +24,14 @@ aoc5p1: aoc5p1.o MD5.o
 aoc5p2: aoc5p2.o MD5.o
 	$(CPP) $(CPPFLAGS) aoc5p2.o MD5.o -o $@
 
+aoc6p1: aoc6p1.o
+	$(CPP) $(CPPFLAGS) aoc6p1.o -o $@
+
+aoc6p2: aoc6p2.o
+	$(CPP) $(CPPFLAGS) aoc6p2.o -o $@
+
 clean:
-	rm -f aoc1 aoc2 aoc3p1 aoc3p2 aoc4 aoc5p1 aoc5p2 *.o *.bin
+	rm -f aoc1 aoc2 aoc3p1 aoc3p2 aoc4 aoc5p1 aoc5p2 aoc6p1 aoc6p2 *.o *.bin
 
 .SUFFIXES: .cpp .o
 
